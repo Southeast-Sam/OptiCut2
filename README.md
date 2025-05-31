@@ -1,12 +1,40 @@
-# React + Vite
+# OptiCut V2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+OptiCut basiert auf der Idee, dass Nutzer mehrere Hauptplatten direkt am Anfang eingeben können.
+So sehen sie sofort, wie viel Plattenmaterial sie insgesamt benötigen, bevor gesägt wird - mit dem Ziel, möglichst wenig Verschnitt zu erzeugen und Materialkosten und Zeit zu sparen.
 
-Currently, two official plugins are available:
+Die App sollte dabei helfen, Zuschnitte automatisch auf vorhandene Platten zu verteilen.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Eingabe beliebig vieler **Hauptplatten**
+- Eingabe und Verwaltung von **Zuschnitten**
+- Klare, aufgeräumte Benutzeroberfläche (TailwindCSS)
+- React + React Router Struktur
+- Automatische Auswahl der kleinsten passenden Hauptplatte
+- Zuschnitt-Optimierung mit intelligenter Platzierung
+- PDF-Export & Verlaufsspeicherung
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+- **React**
+- **TailwindCSS**
+- **React Router**
+- **React Icons**
+- **Vite**
+
+## Status
+
+Dieses Projekt befindet sich aktuell in der aktiven Entwicklung. Weitere Funktionen wie automatische Zuschnittplatzierung, PDF-Export und Plattenwahl werden schrittweise hinzugefügt.
+
+## 📁 Projektstruktur
+
+```bash
+src/
+├── components/       # UI-Komponenten
+├── pages/            # Seiten wie CuttingPage, PDFExportPage
+├── utils/            # Hilfsfunktionen (z. B. Optimierer)
+├── App.jsx           # Haupt-Routing
+├── main.jsx          # Entry Point
+
+```
