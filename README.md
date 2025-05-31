@@ -15,7 +15,7 @@ Die App sollte dabei helfen, Zuschnitte automatisch auf vorhandene Platten zu ve
 - Zuschnitt-Optimierung mit intelligenter Platzierung
 - PDF-Export & Verlaufsspeicherung
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **React**
 - **TailwindCSS**
@@ -27,7 +27,7 @@ Die App sollte dabei helfen, Zuschnitte automatisch auf vorhandene Platten zu ve
 
 Dieses Projekt befindet sich aktuell in der aktiven Entwicklung. Weitere Funktionen wie automatische Zuschnittplatzierung, PDF-Export und Plattenwahl werden schrittweise hinzugefügt.
 
-## 📁 Projektstruktur
+## Projektstruktur
 
 ```bash
 src/
