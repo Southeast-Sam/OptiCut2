@@ -10,6 +10,18 @@ function CuttingPage() {
   const [platten, setPlatten] = useState([]); // Array weil mehrere Platten
   const [fill, setFill] = useState(false);
 
+  // Hauptplatten && Zuschnitten hinzufügen durch FaPlus
+  const handleAdd = () => {
+    if (fill) {
+      // Zuschnitten
+      setMaße([...maße, { id: Date.now(), breite: "", länge: "" }]);
+    } else {
+      // Hauptplatten
+      setPlatten([...platten, { id: Date.now(), breite: "", länge: "" }]);
+    }
+  };
+
+  // Zuschnitten Inputs
   const handleInputChange = (id, feld, wert) => {
     const neueListe = maße.map((eintrag) => {
       if (eintrag.id === id) {
@@ -19,10 +31,25 @@ function CuttingPage() {
     });
     setMaße(neueListe);
   };
-
   const handleDelete = (id) => {
     setMaße(maße.filter((eintrag) => eintrag.id !== id));
   };
+
+  // Hauptplatten Inputs
+  const handleInputChangePlatte = (id, feld, wert) => {
+    const neueListe = platten.map((eintrag) => {
+      if (eintrag.id === id) {
+        return { ...eintrag, [feld]: wert };
+      }
+      return eintrag;
+    });
+    setPlatten(neueListe);
+  };
+
+  const handleDeletePlatte = (id) => {
+    setPlatten(platten.filter((eintrag) => eintrag.id !== id));
+  };
+
   return (
     <div className="flex flex-col-reverse h-screen">
       {/* Panel */}
@@ -39,12 +66,7 @@ function CuttingPage() {
           >
             {panelOffen ? "▼ schließen" : "▲ öffnen"}
           </button>
-          <button
-            onClick={() => {
-              setMaße([...maße, { id: Date.now(), breite: "", länge: "" }]);
-            }}
-            className="text-md p-4 cursor-pointer"
-          >
+          <button onClick={handleAdd} className="text-md p-4 cursor-pointer">
             <FaPlusCircle size={24} />
           </button>
         </div>
@@ -69,38 +91,83 @@ function CuttingPage() {
           <div className="flex-1 overflow-y-scroll mb-12">
             {/* Eingabefelder für Zuschnitten */}
             <div className="flex flex-col h-6 gap-3 mt-3">
-              {maße.map((eintrag) => (
-                <div
-                  key={eintrag.id}
-                  className="flex-1 flex items-center justify-end gap-8 sm:mr-4 md:mr-12 lg:mr-24"
-                >
-                  <input
-                    type="text"
-                    value={eintrag.breite}
-                    placeholder="Breite..."
-                    onChange={(e) =>
-                      handleInputChange(eintrag.id, "breite", e.target.value)
-                    }
-                    className="w-40 sm:w-25 md:w-40 lg:w-56 border-2 p-2 rounded-lg h-6"
-                  />
-                  <input
-                    type="text"
-                    value={eintrag.länge}
-                    onChange={(e) =>
-                      handleInputChange(eintrag.id, "länge", e.target.value)
-                    }
-                    placeholder="Länge..."
-                    className="w-40 sm:w-25 md:w-40 lg:w-56 border-2 p-2 rounded-lg h-6"
-                  />
+              {fill
+                ? //  Zuschnitte anzeigen
+                  maße.map((eintrag) => (
+                    <div
+                      key={eintrag.id}
+                      className="flex-1 flex items-center justify-end gap-8 sm:mr-4 md:mr-12 lg:mr-24"
+                    >
+                      <input
+                        type="text"
+                        value={eintrag.breite}
+                        placeholder="Breite..."
+                        onChange={(e) =>
+                          handleInputChange(
+                            eintrag.id,
+                            "breite",
+                            e.target.value
+                          )
+                        }
+                        className="w-40 sm:w-25 md:w-40 lg:w-56 border-2 p-2 rounded-lg h-6"
+                      />
+                      <input
+                        type="text"
+                        value={eintrag.länge}
+                        onChange={(e) =>
+                          handleInputChange(eintrag.id, "länge", e.target.value)
+                        }
+                        placeholder="Länge..."
+                        className="w-40 sm:w-25 md:w-40 lg:w-56 border-2 p-2 rounded-lg h-6"
+                      />
 
-                  <button
-                    onClick={() => handleDelete(eintrag.id)}
-                    className="cursor-pointer"
-                  >
-                    <FaDeleteLeft size={24} />
-                  </button>
-                </div>
-              ))}
+                      <button
+                        onClick={() => handleDelete(eintrag.id)}
+                        className="cursor-pointer"
+                      >
+                        <FaDeleteLeft size={24} />
+                      </button>
+                    </div>
+                  ))
+                : // Hauptplatten anzeigen
+                  platten.map((eintrag) => (
+                    <div
+                      key={eintrag.id}
+                      className="flex-1 flex items-center justify-end gap-8 sm:mr-4 md:mr-12 lg:mr-24"
+                    >
+                      <input
+                        type="text"
+                        value={eintrag.breite}
+                        placeholder="Breite..."
+                        onChange={(e) =>
+                          handleInputChangePlatte(
+                            eintrag.id,
+                            "breite",
+                            e.target.value
+                          )
+                        }
+                        className="w-40 sm:w-25 md:w-40 lg:w-56 border-2 p-2 rounded-lg h-6"
+                      />
+
+                      <input
+                        type="text"
+                        value={eintrag.länge}
+                        placeholder="Länge..."
+                        onChange={(e) =>
+                          handleInputChangePlatte(
+                            eintrag.id,
+                            "länge",
+                            e.target.value
+                          )
+                        }
+                        className="w-40 sm:w-25 md:w-40 lg:w-56 border-2 p-2 rounded-lg h-6"
+                      />
+
+                      <button onClick={() => handleDeletePlatte(eintrag.id)}>
+                        <FaDeleteLeft size={24} />
+                      </button>
+                    </div>
+                  ))}
             </div>
           </div>
         </div>
