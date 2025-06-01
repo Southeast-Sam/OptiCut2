@@ -27,12 +27,12 @@ function CuttingPage() {
     <div className="flex flex-col-reverse h-screen">
       {/* Panel */}
       <div
-        className={`relative mb-8 border transition-all duration-300 overflow-y-scroll overflow-hidden ${
-          panelOffen ? "h-[200px] overflow-y-scroll" : "h-[40px]"
+        className={`mb-8 border-2 transition-all duration-300 overflow-hidden ${
+          panelOffen ? "h-[200px]" : "h-[40px]"
         } bg-gray-100 shadow-md flex-shrink-0
             `}
       >
-        <div className="absolute top-0 left-0 w-full flex justify-between h-10 bg-gray-400 border-b-1 items-center">
+        <div className="w-full flex justify-between h-10 bg-gray-400 border-b-2 items-center">
           <button
             onClick={() => setPanelOffen(!panelOffen)}
             className="p-3 text-md cursor-pointer"
@@ -49,48 +49,59 @@ function CuttingPage() {
           </button>
         </div>
 
-        <div className="flex gap-4 mt-10">
+        <div className="flex">
           {/* Sidebar links im Panel */}
-          <div className="flex-shrink-0 justify-center items-center w-40 md:w-80 lg:w-100 bg-amber-400 h-50">
-            <button onClick={() => setFill(false)}>
-              {fill ? <GoDot size={15} /> : <GoDotFill size={15} />}
-              <span className="text-md">Hauptplatten</span>
+          <div className="flex flex-col flex-shrink-0 gap-2 ml-4 w-40 md:w-60 lg:w-80 border-r-2 border-black h-50">
+            <button
+              onClick={() => setFill(false)}
+              className="flex items-center mt-10"
+            >
+              {!fill ? <GoDotFill size={20} /> : <GoDot size={20} />}
+              <span className="text-lg">Hauptplatten</span>
+            </button>
+
+            <button onClick={() => setFill(true)} className="flex items-center">
+              {fill ? <GoDotFill size={20} /> : <GoDot size={20} />}
+              <span className="text-lg">Zuschnitte</span>
             </button>
           </div>
-          {/* Eingabefelder für Zuschnitten */}
-          <div className="flex flex-col h-6 gap-3 mt-3 flex-1">
-            {maße.map((eintrag) => (
-              <div
-                key={eintrag.id}
-                className="flex-1 flex items-center justify-end gap-8 sm:mr-4 md:mr-12 lg:mr-24"
-              >
-                <input
-                  type="text"
-                  value={eintrag.breite}
-                  placeholder="Breite..."
-                  onChange={(e) =>
-                    handleInputChange(eintrag.id, "breite", e.target.value)
-                  }
-                  className="w-40 sm:w-35 md:w-40 lg:w-56 border-2 p-2 rounded-lg h-6"
-                />
-                <input
-                  type="text"
-                  value={eintrag.länge}
-                  onChange={(e) =>
-                    handleInputChange(eintrag.id, "länge", e.target.value)
-                  }
-                  placeholder="Länge..."
-                  className="w-40 sm:w-35 md:w-40 lg:w-56 border-2 p-2 rounded-lg h-6"
-                />
 
-                <button
-                  onClick={() => handleDelete(eintrag.id)}
-                  className="cursor-pointer"
+          <div className="flex-1 overflow-y-scroll mb-12">
+            {/* Eingabefelder für Zuschnitten */}
+            <div className="flex flex-col h-6 gap-3 mt-3">
+              {maße.map((eintrag) => (
+                <div
+                  key={eintrag.id}
+                  className="flex-1 flex items-center justify-end gap-8 sm:mr-4 md:mr-12 lg:mr-24"
                 >
-                  <FaDeleteLeft size={24} />
-                </button>
-              </div>
-            ))}
+                  <input
+                    type="text"
+                    value={eintrag.breite}
+                    placeholder="Breite..."
+                    onChange={(e) =>
+                      handleInputChange(eintrag.id, "breite", e.target.value)
+                    }
+                    className="w-40 sm:w-25 md:w-40 lg:w-56 border-2 p-2 rounded-lg h-6"
+                  />
+                  <input
+                    type="text"
+                    value={eintrag.länge}
+                    onChange={(e) =>
+                      handleInputChange(eintrag.id, "länge", e.target.value)
+                    }
+                    placeholder="Länge..."
+                    className="w-40 sm:w-25 md:w-40 lg:w-56 border-2 p-2 rounded-lg h-6"
+                  />
+
+                  <button
+                    onClick={() => handleDelete(eintrag.id)}
+                    className="cursor-pointer"
+                  >
+                    <FaDeleteLeft size={24} />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
