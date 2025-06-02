@@ -4,18 +4,21 @@ import { FaDeleteLeft } from "react-icons/fa6";
 import { GoDot } from "react-icons/go";
 import { GoDotFill } from "react-icons/go";
 import { findePassendePlatte } from "../Utils/algorithmus";
+import { gruppiereZuschnitteNachPlatte } from "../Utils/algorithmus";
+import CuttingVisualizer from "../components/CuttingVisualizer";
 
 function CuttingPage() {
   const [panelOffen, setPanelOffen] = useState(false);
-  const [maße, setMaße] = useState([]);
+  const [zuschnitte, setZuschnitte] = useState([]);
   const [platten, setPlatten] = useState([]); // Array weil mehrere Platten
   const [fill, setFill] = useState(false);
+  const gruppierteDaten = gruppiereZuschnitteNachPlatte(zuschnitte, platten);
 
   // Hauptplatten && Zuschnitten hinzufügen durch FaPlus
   const handleAdd = () => {
     if (fill) {
       // Zuschnitten
-      setMaße([...maße, { id: Date.now(), breite: "", länge: "" }]);
+      setZuschnitte([...zuschnitte, { id: Date.now(), breite: "", länge: "" }]);
     } else {
       // Hauptplatten
       setPlatten([...platten, { id: Date.now(), breite: "", länge: "" }]);
@@ -24,7 +27,7 @@ function CuttingPage() {
 
   // Zuschnitten Inputs
   const handleInputChange = (id, feld, wert) => {
-    const neueListe = maße.map((eintrag) => {
+    const neueListe = zuschnitte.map((eintrag) => {
       if (eintrag.id === id) {
         const aktualisiert = { ...eintrag, [feld]: wert };
 
@@ -35,10 +38,10 @@ function CuttingPage() {
       }
       return eintrag;
     });
-    setMaße(neueListe);
+    setZuschnitte(neueListe);
   };
   const handleDelete = (id) => {
-    setMaße(maße.filter((eintrag) => eintrag.id !== id));
+    setZuschnitte(zuschnitte.filter((eintrag) => eintrag.id !== id));
   };
 
   // Hauptplatten Inputs
@@ -115,7 +118,7 @@ function CuttingPage() {
             <div className="flex flex-col h-6 gap-3 mt-3">
               {fill
                 ? //  Zuschnitte anzeigen
-                  maße.map((eintrag) => (
+                  zuschnitte.map((eintrag) => (
                     <div
                       key={eintrag.id}
                       className="flex-1 flex items-center justify-end gap-8 sm:mr-4 md:mr-12 lg:mr-24"
@@ -193,6 +196,10 @@ function CuttingPage() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="flex items-center h-screen gap-4 bg-white">
+        {/* Anzeigen */}
+        {zuschnitte.length > 0 && <CuttingVisualizer daten={gruppierteDaten} />}
       </div>
     </div>
   );
