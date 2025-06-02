@@ -3,6 +3,7 @@ import { FaPlusCircle } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { GoDot } from "react-icons/go";
 import { GoDotFill } from "react-icons/go";
+import { findePassendePlatte } from "../Utils/algorithmus";
 
 function CuttingPage() {
   const [panelOffen, setPanelOffen] = useState(false);
@@ -25,7 +26,12 @@ function CuttingPage() {
   const handleInputChange = (id, feld, wert) => {
     const neueListe = maße.map((eintrag) => {
       if (eintrag.id === id) {
-        return { ...eintrag, [feld]: wert };
+        const aktualisiert = { ...eintrag, [feld]: wert };
+
+        if (Number(aktualisiert.breite) > 0 && Number(aktualisiert.länge) > 0) {
+          findeUndNutzePlatte(aktualisiert);
+        }
+        return aktualisiert;
       }
       return eintrag;
     });
@@ -50,6 +56,17 @@ function CuttingPage() {
     setPlatten(platten.filter((eintrag) => eintrag.id !== id));
   };
 
+  // Richtige Platten für Zuschnitten finden
+  const findeUndNutzePlatte = (zuschnitt) => {
+    const passende = findePassendePlatte(zuschnitt, platten);
+    if (passende) {
+      console.log("Passende Platten gefunden:", passende);
+      // Später Platten anzeigen
+    } else {
+      alert("Keine passende Hauptplatte gefunden!");
+    }
+  };
+
   return (
     <div className="flex flex-col-reverse h-screen">
       {/* Panel */}
@@ -59,6 +76,7 @@ function CuttingPage() {
         } bg-gray-100 shadow-md flex-shrink-0
             `}
       >
+        {/* + & open/close bereich */}
         <div className="w-full flex justify-between h-10 bg-gray-400 border-b-2 items-center">
           <button
             onClick={() => setPanelOffen(!panelOffen)}
@@ -71,18 +89,22 @@ function CuttingPage() {
           </button>
         </div>
 
+        {/* Hauptbereich im Panel */}
         <div className="flex">
           {/* Sidebar links im Panel */}
-          <div className="flex flex-col flex-shrink-0 gap-2 ml-4 w-40 md:w-60 lg:w-80 border-r-2 border-black h-50">
+          <div className="flex flex-col flex-shrink-0 gap-2 ml-8 w-40 md:w-60 lg:w-80 border-r-2 border-black h-50">
             <button
               onClick={() => setFill(false)}
-              className="flex items-center mt-10"
+              className="flex items-center mt-10 cursor-pointer"
             >
               {!fill ? <GoDotFill size={20} /> : <GoDot size={20} />}
               <span className="text-lg">Hauptplatten</span>
             </button>
 
-            <button onClick={() => setFill(true)} className="flex items-center">
+            <button
+              onClick={() => setFill(true)}
+              className="flex items-center cursor-pointer"
+            >
               {fill ? <GoDotFill size={20} /> : <GoDot size={20} />}
               <span className="text-lg">Zuschnitte</span>
             </button>
